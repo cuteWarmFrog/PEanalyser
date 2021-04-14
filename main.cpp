@@ -41,18 +41,18 @@ int main() {
         return 0;
     }
 
-    IMAGE_NT_HEADERS nt_headers; // читать будем IMAGE_NT_HEADERS только без дата директорий
-    peFile.read(reinterpret_cast<char*>(&nt_headers), sizeof(IMAGE_NT_HEADERS) - sizeof(IMAGE_DATA_DIRECTORY) * 16);
+    IMAGE_NT_HEADERS nt_header; // читать будем IMAGE_NT_HEADERS только без дата директорий
+    peFile.read(reinterpret_cast<char*>(&nt_header), sizeof(IMAGE_NT_HEADERS) - sizeof(IMAGE_DATA_DIRECTORY) * 16);
     if(peFile.bad() || peFile.eof()) {
         cout << "Error reading IMAGE_NT_HEADERS32" << endl;
         return 0;
     }
-    if(nt_headers.Signature != 'EP') { // Проверяем, что наш файл - PE сигнатура
+    if(nt_header.Signature != 'EP') { // Проверяем, что наш файл - PE сигнатура
         cout << "Incorrect PE signature" << endl;
         return 0;
     }
 
-    DWORD first_section = dos_header.e_lfanew + nt_headers.FileHeader.SizeOfOptionalHeader + sizeof(IMAGE_FILE_HEADER) + sizeof(DWORD) /* Signature */;
+    DWORD first_section = dos_header.e_lfanew + nt_header.FileHeader.SizeOfOptionalHeader + sizeof(IMAGE_FILE_HEADER) + sizeof(DWORD) /* Signature */;
 
 //переходим на первую секцию в таблице секций
     peFile.seekg(first_section);
@@ -63,5 +63,26 @@ int main() {
     }
     cout << hex << showbase << left;
 
-    WORD numberOfSections = nt_headers.FileHeader.NumberOfSections;
+    cout << "Address of entry point: " << nt_header.OptionalHeader.AddressOfEntryPoint << endl;
+
+    WORD numberOfSections = nt_header.FileHeader.NumberOfSections;
+    for(WORD i = 0; i < numberOfSections; i++) {
+        IMAGE_SECTION_HEADER sectionHeader;
+        peFile.read(reinterpret_cast<char*>(&sectionHeader), sizeof(IMAGE_SECTION_HEADER));
+        cout << "Name: " << sectionHeader.Name << endl;
+        cout << "Virtual address: " << hex << sectionHeader.VirtualAddress << endl;
+        cout << "Characteristics: " << hex << sectionHeader.Characteristics << endl;
+        cout << "Misc physical address: " << hex << sectionHeader.Misc.PhysicalAddress << endl;
+        cout << "Misc virtual size: " << hex << sectionHeader.Misc.VirtualSize << endl;
+        cout << "Number of Relocations: " << hex << sectionHeader.NumberOfRelocations << endl;
+        cout << "Pointer to line numbers: " << hex << sectionHeader.PointerToLinenumbers << endl;
+        cout << "Pointer to raw data: " << hex << sectionHeader.PointerToRawData << endl;
+        cout << "Pointer to relocations: " << hex << sectionHeader.PointerToRelocations << endl;
+        cout << "Size of raw data: " << hex << sectionHeader.SizeOfRawData << endl;
+        cout << endl;
+    }
+
+    /*todo получить исполняемую часть файла в байтах
+     * она лежит в .text. читаем с .text size байт
+     */
 }
