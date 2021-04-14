@@ -58,8 +58,7 @@ int main() {
     peFile.seekg(first_section);
     if(peFile.bad() || peFile.fail())
     {
-        cout << "Cannot reach section headers" <<
-        ndl;
+        cout << "Cannot reach section headers" << endl;
         return 0;
     }
     cout << hex << showbase << left;
