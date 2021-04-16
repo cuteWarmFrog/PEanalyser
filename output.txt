@@ -1,0 +1,45 @@
+Address of entry point: 298997
+Name: .text
+Virtual address: 0x1000
+Characteristics: 0x60000020
+Misc physical address: 0x89872
+Misc virtual size: 0x89872
+Number of Relocations: 0
+Pointer to line numbers: 0
+Pointer to raw data: 0x400
+Pointer to relocations: 0
+Size of raw data: 0x89a00
+
+Name: .rdata
+Virtual address: 0x8b000
+Characteristics: 0x40000040
+Misc physical address: 0x38796
+Misc virtual size: 0x38796
+Number of Relocations: 0
+Pointer to line numbers: 0
+Pointer to raw data: 0x89e00
+Pointer to relocations: 0
+Size of raw data: 0x38800
+
+Name: .data
+Virtual address: 0xc4000
+Characteristics: 0xc0000040
+Misc physical address: 0xa0fc
+Misc virtual size: 0xa0fc
+Number of Relocations: 0
+Pointer to line numbers: 0
+Pointer to raw data: 0xc2600
+Pointer to relocations: 0
+Size of raw data: 0x8c00
+
+Name: .rsrc
+Virtual address: 0xcf000
+Characteristics: 0x40000040
+Misc physical address: 0xcbc0
+Misc virtual size: 0xcbc0
+Number of Relocations: 0
+Pointer to line numbers: 0
+Pointer to raw data: 0xcb200
+Pointer to relocations: 0
+Size of raw data: 0xcc00
+
