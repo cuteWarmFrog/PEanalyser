@@ -34,12 +34,10 @@ bool checker() {
 }
 
 int main() {
-    FILE *PE_FILE = fopen("SpotifySetup.exe", "rb");
-    FILE *BIN_FILE = fopen("bin.txt", "wb");
 
     peFile.open("SpotifySetup.exe", ios::in | ios::binary);
     ofstream output("output.txt");
-
+    ofstream bin("bin.txt");
 
     if (checker()) {
         return 0;
@@ -94,11 +92,12 @@ int main() {
         }
     }
 
-    fseek(PE_FILE, pCode, SEEK_SET);
+    peFile.seekg(pCode);
+
     char code[sizeOfCode];
 
-    fread(&code, sizeof(char), sizeOfCode, PE_FILE);
-    fwrite(&code, sizeof(char), sizeOfCode, BIN_FILE);
+    peFile.read(code, sizeOfCode);
+    bin.write(code, sizeOfCode);
 
     return 0;
 }
